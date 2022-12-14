@@ -7,7 +7,8 @@
 					<p class="text-xs-center">
 						<router-link :to="{name: 'login'}">Need an account?</router-link>
 					</p>
-					<McvValidationsErrors v-if='validationsErrors' :validation-errors='validationsErrors'></McvValidationsErrors>
+					<McvValidationsErrors v-if='validationsErrors' :validation-errors='validationsErrors'>
+					</McvValidationsErrors>
 					<form @submit.prevent="onSubmit">
 						<fieldset class="form-group">
 							<input type="text" class="form-control orm-control-lg" placeholder="user name" v-model="username" />
