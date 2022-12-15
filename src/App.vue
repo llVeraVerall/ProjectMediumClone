@@ -1,7 +1,16 @@
 <template>
   <div id="app">
-    hi
+    <mcv-topbar></mcv-topbar>
     <router-view />
   </div>
 </template>
 
+<script>
+import McvTopbar from '@/components/Topbar.vue'
+export default {
+  name: 'App',
+  components: {
+    McvTopbar
+  },
+}
+</script>

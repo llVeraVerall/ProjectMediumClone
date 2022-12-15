@@ -4,7 +4,7 @@ import {setItem} from '@/helpers/persistanceStorage';
 const state = {
   isSubmitting: false,
   currentUser: null,
-  validationsErrors: null,
+  validationErrors: null,
   isLoggedIn: null, //состояние залогинен ли пользователь
 };
 
@@ -12,10 +12,14 @@ export const mutationsTypes = {
   registerStart: '[auth] registerStart',
   registerSuccess: '[auth] registerSuccess',
   registerFailure: '[auth] registerFailure',
+  loginStart: '[auth] loginStart',
+  loginSuccess: '[auth] loginSuccess',
+  loginFailure: '[auth] loginFailure',
 };
 
 export const actionTypes = {
   register: '[auth] register',
+  login: '[auth] login',
 };
 
 const mutations = {
@@ -30,7 +34,20 @@ const mutations = {
   },
   [mutationsTypes.registerFailure](state, payload) {
     state.isSubmitting = false;
-    state.validationsErrors = payload;
+    state.validationErrors = payload;
+  },
+  [mutationsTypes.loginStart](state) {
+    state.isSubmitting = true;
+    state.validationErrors = null;
+  },
+  [mutationsTypes.loginSuccess](state, payload) {
+    state.isSubmitting = false;
+    state.isLoggedIn = true;
+    state.currentUser = payload;
+  },
+  [mutationsTypes.loginFailure](state, payload) {
+    state.isSubmitting = false;
+    state.validationErrors = payload;
   },
 };
 
@@ -47,6 +64,24 @@ const actions = {
         .catch((result) => {
           context.commit(
             mutationsTypes.registerFailure,
+            result.response.data.errors
+          );
+        });
+    });
+  },
+
+  [actionTypes.login](context, credentials) {
+    return new Promise(() => {
+      context.commit(mutationsTypes.loginStart);
+      authAPI
+        .login(credentials)
+        .then((response) => {
+          context.commit(mutationsTypes.loginSuccess, response.data.user);
+          setItem('accessToken', response.data.user.token);
+        })
+        .catch((result) => {
+          context.commit(
+            mutationsTypes.loginFailure,
             result.response.data.errors
           );
         });
