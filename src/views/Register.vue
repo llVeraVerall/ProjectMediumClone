@@ -6,8 +6,8 @@
 					<h1 class="text-xs-center">Sing Up</h1>
 					<p class="text-xs-center">
 						<router-link :to="{name: 'login'}">
-            Have an account?
-          </router-link>
+			Have an account?
+		</router-link>
 					</p>
 					<mcv-validation-errors v-if='validationErrors' :validation-errors='validationErrors'>
 					</mcv-validation-errors>
@@ -63,7 +63,7 @@ export default {
 			password: this.password
         })
         .then(() => {
-          this.$router.push({name: 'home'})
+          this.$router.push({name: 'globalFeed'})
         })
     }
   }
