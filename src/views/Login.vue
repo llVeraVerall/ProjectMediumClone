@@ -50,13 +50,6 @@ export default {
 			isSubmitting: state => state.auth.isSubmitting,
 			validationErrors: state => state.auth.validationErrors
 		})
-	// computed: {
-	// 	isSubmitting() {
-	// 		return this.$store.state.auth.isSubmitting
-	// 	},
-	// 	validationErrors() {
-	// 		return this.$store.state.auth.validationErrors
-	// 	}
 	},
 	methods: {
     onSubmit() {
@@ -66,7 +59,7 @@ export default {
           password: this.password
         })
         .then(() => {
-          this.$router.push({name: 'home'})
+          this.$router.push({name: 'globalFeed'})
         })
     }
   }
