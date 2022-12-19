@@ -26,44 +26,67 @@
 					TAG LIST
 				</router-link>
 			</div>
-			<mcv-pagination :total="total" :limit="limit" :current-page="currentPage" :url="url"/>
+			<mcv-pagination :total="feed.articlesCount" :limit="limit" :current-page="currentPage" :url="baseUrl"/>
 		</div>
 	</div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import queryString from 'query-string'
 import { actionTypes } from '@/store/modules/feed'
 import McvPagination from '@/components/Pagination'
+import {limit} from '@/helpers/consts'
 
 export default {
-	name: 'McvFeed',
-	props: {
-		apiUrl: {
-			type: String,
-			required: true
-		}
-	},
-	data() {
-		return {
-			total: 500,
-			limit: 10,
-			currentPage: 5,
-			url: '/tags/dragons'
-		}
-	},
-	components: {
-		McvPagination
-	},
-	computed: {
-		...mapState({
-			isLoading: state => state.feed.isLoading,
-			feed: state => state.feed.data,
-			error: state => state.feed.error
-		})
-	},
-	mounted() {
-		this.$store.dispatch(actionTypes.getFeed, {apiUrl: this.apiUrl})
-	}
+  name: 'McvFeed',
+  components: {
+    McvPagination
+  },
+  props: {
+    apiUrl: {
+      type: String,
+      required: true
+    }
+  },
+  computed: {
+    ...mapState({
+      isLoading: state => state.feed.isLoading,
+      feed: state => state.feed.data,
+      error: state => state.feed.error
+    }),
+    limit() {
+      return limit
+    },
+    baseUrl() {
+      return this.$route.path
+    },
+    currentPage() {
+      return Number(this.$route.query.page || '1')
+    },
+    offset() {
+      return this.currentPage * limit - limit
+    }
+  },
+  watch: {
+    currentPage() {
+      this.fetchFeed()
+    }
+  },
+  mounted() {
+    this.fetchFeed()
+  },
+  methods: {
+    fetchFeed() {
+      const parsedUrl = queryString.parseUrl(this.apiUrl)
+      const stringifiedParams = queryString.stringify({
+        limit,
+        offset: this.offset,
+        ...parsedUrl.query
+      })
+      const apiUrlWithParams = `${parsedUrl.url}?${stringifiedParams}`
+      this.$store.dispatch(actionTypes.getFeed, {apiUrl: apiUrlWithParams})
+    }
+  }
 }
 </script>
