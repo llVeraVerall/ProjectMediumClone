@@ -2,8 +2,11 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import GlobalFeed from '@/views/GlobalFeed';
+import YourFeed from '@/views/YourFeed.vue';
+import TagFeed from '@/views/TagFeed';
 import Register from '@/views/Register.vue';
 import Login from '@/views/Login.vue';
+import Article from '@/views/Article';
 
 Vue.use(VueRouter);
 
@@ -26,12 +29,12 @@ const routes = [
   {
     path: '/feed',
     name: 'yourFeed',
-    component: GlobalFeed, ////
+    component: YourFeed,
   },
   {
     path: '/tags/:slug',
-    name: 'teg',
-    component: GlobalFeed, ////////
+    name: 'tag',
+    component: TagFeed,
   },
   {
     path: '/articles/new',
@@ -41,7 +44,7 @@ const routes = [
   {
     path: '/articles/:slug',
     name: 'article',
-    component: GlobalFeed, /////
+    component: Article,
   },
   {
     path: '/articles/:slug/edit',
