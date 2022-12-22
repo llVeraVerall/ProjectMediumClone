@@ -2,8 +2,13 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import GlobalFeed from '@/views/GlobalFeed';
+import YourFeed from '@/views/YourFeed.vue';
+import TagFeed from '@/views/TagFeed';
 import Register from '@/views/Register.vue';
 import Login from '@/views/Login.vue';
+import Article from '@/views/Article';
+import CreateArticle from '@/views/CreateArticle';
+import EditArticle from '@/views/EditArticle';
 
 Vue.use(VueRouter);
 
@@ -26,27 +31,27 @@ const routes = [
   {
     path: '/feed',
     name: 'yourFeed',
-    component: GlobalFeed, ////
+    component: YourFeed,
   },
   {
     path: '/tags/:slug',
-    name: 'teg',
-    component: GlobalFeed, ////////
+    name: 'tag',
+    component: TagFeed,
   },
   {
     path: '/articles/new',
     name: 'createArticle',
-    component: GlobalFeed, /////
+    component: CreateArticle,
   },
   {
     path: '/articles/:slug',
     name: 'article',
-    component: GlobalFeed, /////
+    component: Article,
   },
   {
     path: '/articles/:slug/edit',
     name: 'editArticle',
-    component: GlobalFeed, //////
+    component: EditArticle,
   },
   {
     path: '/settings',

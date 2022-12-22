@@ -7,9 +7,9 @@ const state = {
 };
 
 export const mutationsTypes = {
-  getPopularTagsStart: '[PopularTags] Get PopularTags Start',
-  getPopularTagsSuccess: '[PopularTags] Get PopularTags Success',
-  getPopularTagsFailure: '[PopularTags] Get PopularTags Failure',
+  getPopularTagsStart: '[PopularTags] Get Popular Tags Start',
+  getPopularTagsSuccess: '[Popular Tags] Get PopularTags Success',
+  getPopularTagsFailure: '[Popular Tags] Get PopularTags Failure',
 };
 
 export const actionTypes = {
@@ -17,7 +17,7 @@ export const actionTypes = {
 };
 
 const mutations = {
-  [mutationsTypes.getPopularTagsStar](state) {
+  [mutationsTypes.getPopularTagsStart](state) {
     state.isLoading = true;
     state.data = null;
   },
@@ -31,14 +31,14 @@ const mutations = {
 };
 
 const actions = {
-  [actionTypes.getPopularTags](context, {apiUrl}) {
+  [actionTypes.getPopularTags](context) {
     return new Promise((resolve) => {
       context.commit(mutationsTypes.getPopularTagsStart);
       popularTagsApi
-        .getPopularTags(apiUrl)
-        .then((response) => {
-          context.commit(mutationsTypes.getPopularTagsSuccess, response.data);
-          resolve(response.data);
+        .getPopularTags()
+        .then((tags) => {
+          context.commit(mutationsTypes.getPopularTagsSuccess, tags);
+          resolve(tags);
         })
         .catch(() => {
           context.commit(mutationsTypes.getPopularTagsFailure);

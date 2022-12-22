@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<div v-if="isLoading">Loading...</div>
-		<div v-if="error">Some Error</div>
+		<mcv-loading v-if="isLoading" />
+		<mcv-error div v-if="error" />
 
 		<div v-if="feed">
 			<div class="article-preview" v-for="(article, index) in feed.articles" :key="index">
@@ -23,7 +23,7 @@
 					<h1>{{article.title}}</h1>
 					<p>{{article.description}}</p>
 					<span>Read more...</span>
-					TAG LIST
+					<mcv-tag-list :tags="article.tagList" />
 				</router-link>
 			</div>
 			<mcv-pagination :total="feed.articlesCount" :limit="limit" :current-page="currentPage" :url="baseUrl"/>
@@ -37,11 +37,17 @@ import queryString from 'query-string'
 import { actionTypes } from '@/store/modules/feed'
 import McvPagination from '@/components/Pagination'
 import {limit} from '@/helpers/consts'
+import McvLoading from '@/components/Loading'
+import McvError from '@/components/ErrorMessage.vue'
+import McvTagList from '@/components/TagList.vue'
 
 export default {
   name: 'McvFeed',
   components: {
-    McvPagination
+    McvPagination,
+    McvLoading,
+    McvError,
+    McvTagList
   },
   props: {
     apiUrl: {
